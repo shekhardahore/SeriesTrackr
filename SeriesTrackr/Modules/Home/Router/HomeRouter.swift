@@ -19,10 +19,12 @@ class HomeRouter: Router {
     func route(to routeID: String, from context: UIViewController, data: Any?) {
         guard let route = HomeViewController.Route(rawValue: routeID) else { return }
         switch route {
-        case .addNewTVShow:            
-            let vc = AddTVShowViewController(viewModel: AddTVShowViewModel())
-            let navVC = UINavigationController(rootViewController: vc)
-            context.present(navVC, animated: true)
+        case .addNewTVShow:
+            DispatchQueue.main.async {
+                let vc = AddTVShowViewController(viewModel: AddTVShowViewModel(parseService: ParseService()))
+                let navVC = UINavigationController(rootViewController: vc)
+                context.present(navVC, animated: true)
+            }
         case .showAllShows:
             print("showAllShows")
         }

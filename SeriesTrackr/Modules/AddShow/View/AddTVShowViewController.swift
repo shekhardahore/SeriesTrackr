@@ -8,54 +8,7 @@
 
 import UIKit
 
-enum InputType {
-    case normal
-    case numerical
-    case date
-}
-extension InputType {
-    func keyboardType() -> UIKeyboardType {
-        switch self {
-        case .normal:
-            return .default
-        case .numerical:
-            return .numberPad
-        case .date:
-            return .default
-        }
-    }
-}
-
-class NewTVShowData: Hashable {
-    var id: String
-    var titleText: String
-    var inputType: InputType
-    init(titleText: String, inputType: InputType) {
-        self.id = titleText.filter { !$0.isWhitespace }.lowercased()
-        self.titleText = titleText
-        self.inputType = inputType
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: NewTVShowData, rhs: NewTVShowData) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
-class AddTVShowViewModel {
-    var addShowTextFieldCellVM: [NewTVShowData]
-    init() {
-        let tvShowName = NewTVShowData(titleText: "Title", inputType: .normal)
-        let tvShowYearOfRelease = NewTVShowData(titleText: "Year of release", inputType: .date)
-        let tvShowNumberOfSeasons = NewTVShowData(titleText: "Number of seasons", inputType: .numerical)
-        addShowTextFieldCellVM = [tvShowName, tvShowYearOfRelease, tvShowNumberOfSeasons]
-    }
-}
-
-class AddTVShowViewController: UIViewController {
+class AddTVShowViewController: UIViewController, AlertDisplayable {
     
     var addTVShowCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
@@ -74,7 +27,7 @@ class AddTVShowViewController: UIViewController {
         case tvShowInfo
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, NewTVShowData>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<Section, AddShowCellVM>! = nil
     var viewModel: AddTVShowViewModel
     
     init(viewModel: AddTVShowViewModel) {
@@ -101,6 +54,27 @@ class AddTVShowViewController: UIViewController {
         addConstrains()
         configureCollectionView()
         configureDataSource()
+        isInputValid()
+        viewModel.showAdded = { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.hideSpinner()
+                self.dismiss(animated: true)
+                // show some message
+            }
+        }
+        viewModel.failedToAddShow = { [weak self] (errorMessage: String) in
+            guard let `self` = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.hideSpinner()
+                self.displayAlertWith(title: "Error".localizedString, message: errorMessage)
+                self.btnSave.isEnabled = true
+            }
+        }
     }
     
     func addSubviews() {
@@ -139,24 +113,36 @@ class AddTVShowViewController: UIViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <Section, NewTVShowData>(collectionView: addTVShowCollectionView) {
-                (collectionView: UICollectionView, indexPath: IndexPath, detailItem: NewTVShowData) -> UICollectionViewCell? in
+            <Section, AddShowCellVM>(collectionView: addTVShowCollectionView) {
+                (collectionView: UICollectionView, indexPath: IndexPath, detailItem: AddShowCellVM) -> UICollectionViewCell? in
                 let cell = collectionView.dequeueReusableCell(indexPath: indexPath) as AddShowCollectionViewCell
                 cell.cellModel = detailItem
+                cell.textUpdated = { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.isInputValid()
+                    }
+                }
                 return cell
         }
         let snapshot = snapshotForCurrentState()
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    func snapshotForCurrentState() -> NSDiffableDataSourceSnapshot<Section, NewTVShowData> {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, NewTVShowData>()
+    func snapshotForCurrentState() -> NSDiffableDataSourceSnapshot<Section, AddShowCellVM> {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, AddShowCellVM>()
         snapshot.appendSections([Section.tvShowInfo])
-        snapshot.appendItems(viewModel.addShowTextFieldCellVM)
+        snapshot.appendItems(viewModel.addShowCellVM)
         return snapshot
     }
     
     @objc func onSave(_ sender: UIBarButtonItem) {
         print("onSave")
+        btnSave.isEnabled = false
+        self.showSpinner()
+        viewModel.saveShow()
+    }
+    
+    func isInputValid() {
+        btnSave.isEnabled = viewModel.isInputValid()
     }
 }

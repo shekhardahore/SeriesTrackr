@@ -14,7 +14,7 @@ class ParseService {
     typealias ParseServiceCompletion<T> = (Result<T, NetworkError>) -> Void
     
     //Saves show
-    static func save(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
+    func save(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         checkForDuplicate(show: show) { result in
             switch result{
             case .success(let isDuplicate):
@@ -37,7 +37,7 @@ class ParseService {
     }
     
     //Checks for duplicates
-    static func checkForDuplicate(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
+    private func checkForDuplicate(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         let query = PFQuery(className: ParseClassNames.tvShow)
         query.whereKey(ParseObjectKeys.showId, equalTo: show.showId)
         query.getFirstObjectInBackground { (show, error) in
@@ -63,7 +63,7 @@ class ParseService {
     }
     
     //Returns all the shows
-    static func getShowList(completion: @escaping ParseServiceCompletion<[PFObject]>) {
+    func getShowList(completion: @escaping ParseServiceCompletion<[PFObject]>) {
         let query = PFQuery(className:ParseClassNames.tvShow)
         query.findObjectsInBackground { (data, error) in
             guard error == nil else {
@@ -80,7 +80,7 @@ class ParseService {
         }
     }
     
-    static func checkIfShowExists(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
+    func checkIfShowExists(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         //        beforeSave(show: show) { result in
         //            completion(result)
         //        }

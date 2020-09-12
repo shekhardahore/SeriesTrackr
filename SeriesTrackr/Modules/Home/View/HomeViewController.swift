@@ -147,30 +147,7 @@ class HomeViewController: UIViewController {
     @objc func onAllShows(_ sender: UIButton) {
         router.route(to: Route.showAllShows.rawValue, from: self, data: nil)
     }
-    
-    func addData(title: String, numberOfSeasons: Int, yearOfRelease: Int) {
-        
-        //MARK: Important point
-        /*
-         Make sure when you are creating a show that the showId is assigned. If not, then throw error. NSManagedObjects cannot have didset or get properties so find a way around it.
-         */
-        let objectId = title.filter { !$0.isWhitespace }.lowercased()
 
-        let show = TVShow()
-        show.showId = objectId
-        show.title = title
-        show.numberOfSeasons = numberOfSeasons
-        show.yearOfRelease = yearOfRelease
-
-        ParseService.save(show: show) { result in
-            switch result {
-            case .success(_):
-                print("Show saved")
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
     @objc func onAddNewTVShow(_ sender: UIButton) {
         router.route(to: Route.addNewTVShow.rawValue, from: self, data: nil)
 //        let title = "The Boys"

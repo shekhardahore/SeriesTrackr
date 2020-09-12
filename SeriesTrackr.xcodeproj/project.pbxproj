@@ -27,6 +27,12 @@
 		2A9ED732250D059D00B7149B /* AddTVShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9ED731250D059D00B7149B /* AddTVShowViewController.swift */; };
 		2A9ED735250D0F8B00B7149B /* AddShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9ED734250D0F8B00B7149B /* AddShowCollectionViewCell.swift */; };
 		2A9ED737250D286600B7149B /* STTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9ED736250D286600B7149B /* STTextField.swift */; };
+		2AC527E8250D5FD20068EE0C /* AddTVShowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527E7250D5FD20068EE0C /* AddTVShowViewModel.swift */; };
+		2AC527EA250D60260068EE0C /* InputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527E9250D60260068EE0C /* InputType.swift */; };
+		2AC527EC250D61260068EE0C /* AddShowCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527EB250D61260068EE0C /* AddShowCellVM.swift */; };
+		2AC527EE250D63AE0068EE0C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527ED250D63AE0068EE0C /* UIViewController+Extensions.swift */; };
+		2AC527F0250D67DA0068EE0C /* AlertDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527EF250D67DA0068EE0C /* AlertDisplayable.swift */; };
+		2AC527F2250D686D0068EE0C /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527F1250D686D0068EE0C /* String+Extensions.swift */; };
 		2AF7FECC2508C96D004759C2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF7FECB2508C96D004759C2 /* HomeViewController.swift */; };
 		35EC3E8B6CE8154776EE093E /* Pods_SeriesTrackr_SeriesTrackrUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AB8278FE9B3FF400BB22B3 /* Pods_SeriesTrackr_SeriesTrackrUITests.framework */; };
 		BADAB9A7697E33CFAB405642 /* Pods_SeriesTrackr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7F9E815FE7707ACF14E9E58 /* Pods_SeriesTrackr.framework */; };
@@ -77,6 +83,12 @@
 		2A9ED731250D059D00B7149B /* AddTVShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTVShowViewController.swift; sourceTree = "<group>"; };
 		2A9ED734250D0F8B00B7149B /* AddShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShowCollectionViewCell.swift; sourceTree = "<group>"; };
 		2A9ED736250D286600B7149B /* STTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STTextField.swift; sourceTree = "<group>"; };
+		2AC527E7250D5FD20068EE0C /* AddTVShowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTVShowViewModel.swift; sourceTree = "<group>"; };
+		2AC527E9250D60260068EE0C /* InputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputType.swift; sourceTree = "<group>"; };
+		2AC527EB250D61260068EE0C /* AddShowCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShowCellVM.swift; sourceTree = "<group>"; };
+		2AC527ED250D63AE0068EE0C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		2AC527EF250D67DA0068EE0C /* AlertDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDisplayable.swift; sourceTree = "<group>"; };
+		2AC527F1250D686D0068EE0C /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		2AF7FECB2508C96D004759C2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		571BEE4392D8BF04308DAB6D /* Pods-SeriesTrackrTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeriesTrackrTests.release.xcconfig"; path = "Target Support Files/Pods-SeriesTrackrTests/Pods-SeriesTrackrTests.release.xcconfig"; sourceTree = "<group>"; };
 		795CD0063DFD34A23A11258D /* Pods-SeriesTrackr-SeriesTrackrUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeriesTrackr-SeriesTrackrUITests.debug.xcconfig"; path = "Target Support Files/Pods-SeriesTrackr-SeriesTrackrUITests/Pods-SeriesTrackr-SeriesTrackrUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				2A9ED70F250CAD6E00B7149B /* Constants.swift */,
+				2AC527E9250D60260068EE0C /* InputType.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -225,6 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				2A9ED71B250CB79900B7149B /* UICollectionView+Extensions.swift */,
+				2AC527ED250D63AE0068EE0C /* UIViewController+Extensions.swift */,
+				2AC527F1250D686D0068EE0C /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -241,6 +256,7 @@
 			children = (
 				2A9ED71E250CB7CA00B7149B /* Reusable.swift */,
 				2A9ED729250CFA7500B7149B /* Router.swift */,
+				2AC527EF250D67DA0068EE0C /* AlertDisplayable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -282,6 +298,7 @@
 		2A9ED72E250D053B00B7149B /* AddShow */ = {
 			isa = PBXGroup;
 			children = (
+				2AC527E6250D5F070068EE0C /* ViewModel */,
 				2A9ED730250D057000B7149B /* View */,
 			);
 			path = AddShow;
@@ -309,6 +326,15 @@
 				2A9ED734250D0F8B00B7149B /* AddShowCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		2AC527E6250D5F070068EE0C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2AC527E7250D5FD20068EE0C /* AddTVShowViewModel.swift */,
+				2AC527EB250D61260068EE0C /* AddShowCellVM.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		2AF7FEC92508C935004759C2 /* Modules */ = {
@@ -585,17 +611,23 @@
 				2A9ED710250CAD6E00B7149B /* Constants.swift in Sources */,
 				2A9ED713250CAE5300B7149B /* HomeViewModel.swift in Sources */,
 				2A9ED737250D286600B7149B /* STTextField.swift in Sources */,
+				2AC527EA250D60260068EE0C /* InputType.swift in Sources */,
 				2A0F20622508C7F300B87255 /* AppDelegate.swift in Sources */,
 				2A9ED716250CAE8600B7149B /* TVShow.swift in Sources */,
+				2AC527F0250D67DA0068EE0C /* AlertDisplayable.swift in Sources */,
 				2A9ED71F250CB7CA00B7149B /* Reusable.swift in Sources */,
 				2A9ED725250CD4A200B7149B /* TrendingShows.swift in Sources */,
 				2A9ED70D250CACEF00B7149B /* ParseService.swift in Sources */,
+				2AC527EE250D63AE0068EE0C /* UIViewController+Extensions.swift in Sources */,
 				2A9ED71C250CB79900B7149B /* UICollectionView+Extensions.swift in Sources */,
+				2AC527EC250D61260068EE0C /* AddShowCellVM.swift in Sources */,
 				2A9ED72D250CFAC900B7149B /* HomeRouter.swift in Sources */,
 				2A0F20642508C7F300B87255 /* SceneDelegate.swift in Sources */,
 				2A9ED735250D0F8B00B7149B /* AddShowCollectionViewCell.swift in Sources */,
 				2A9ED732250D059D00B7149B /* AddTVShowViewController.swift in Sources */,
 				2A9ED721250CB82100B7149B /* TrendingCollectionViewCell.swift in Sources */,
+				2AC527F2250D686D0068EE0C /* String+Extensions.swift in Sources */,
+				2AC527E8250D5FD20068EE0C /* AddTVShowViewModel.swift in Sources */,
 				2AF7FECC2508C96D004759C2 /* HomeViewController.swift in Sources */,
 				2A9ED72A250CFA7500B7149B /* Router.swift in Sources */,
 			);
