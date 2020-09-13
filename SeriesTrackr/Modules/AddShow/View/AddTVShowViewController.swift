@@ -11,7 +11,6 @@ import UIKit
 class AddTVShowViewController: UIViewController, AlertDisplayable {
     
     var addTVShowCollectionView: UICollectionView
-    
     var btnSave: UIBarButtonItem = {
         let barButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(AddTVShowViewController.onSave(_:)))
         return barButton
@@ -31,12 +30,9 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.setNeedsLayout()
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Add TV Show"

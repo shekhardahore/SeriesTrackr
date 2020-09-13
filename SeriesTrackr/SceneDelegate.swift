@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
+        setupNavigationBarApperance()
         let navVC = UINavigationController(rootViewController: getRootViewController())
         window?.rootViewController = navVC
         window?.makeKeyAndVisible()
@@ -25,6 +26,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewModel = HomeViewModel(networkService: ParseService())
         let HomeVC = HomeViewController(viewModel: viewModel)
         return HomeVC
+    }
+    
+    func setupNavigationBarApperance() {
+        let appearance = UINavigationBarAppearance()
+        //   appearance.backgroundColor = .purple
+        //  appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        //  appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().tintColor = .systemBlue
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
