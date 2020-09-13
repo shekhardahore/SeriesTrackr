@@ -63,7 +63,7 @@ class ParseService {
     }
     
     //Returns all the shows
-    func getShowList(completion: @escaping ParseServiceCompletion<[PFObject]>) {
+    func getShowList(completion: @escaping ParseServiceCompletion<[TVShow]>) {
         let query = PFQuery(className:ParseClassNames.tvShow)
         query.findObjectsInBackground { (data, error) in
             guard error == nil else {
@@ -71,9 +71,13 @@ class ParseService {
                 completion(.failure(.unknown))
                 return
             }
-            guard let shows = data else {
+            guard let data = data else {
                 completion(.failure(.noDataFound))
                 return
+            }
+            var shows: [TVShow] = []
+            for show in data {
+                shows.append(show as! TVShow)
             }
             print("data retived")
             completion(.success(shows))

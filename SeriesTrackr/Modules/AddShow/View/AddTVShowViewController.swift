@@ -10,12 +10,12 @@ import UIKit
 
 class AddTVShowViewController: UIViewController, AlertDisplayable {
     
-    var addTVShowCollectionView: UICollectionView
+    var addTVShowCollectionView: AddTVShowCollectionView
     var btnSave: UIBarButtonItem = {
         let barButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(AddTVShowViewController.onSave(_:)))
         return barButton
     }()
-    
+
     var viewModel: AddTVShowViewModel
     
     init(viewModel: AddTVShowViewModel) {

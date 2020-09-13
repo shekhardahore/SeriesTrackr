@@ -26,7 +26,10 @@ class HomeRouter: Router {
                 context.present(navVC, animated: true)
             }
         case .showAllShows:
-            print("showAllShows")
+            DispatchQueue.main.async {
+                let vc = TVShowListViewController(viewModel: TVShowListVM(parseService: ParseService()))
+                context.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }

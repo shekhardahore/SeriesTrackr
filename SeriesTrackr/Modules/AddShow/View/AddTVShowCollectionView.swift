@@ -33,7 +33,6 @@ class AddTVShowCollectionView: UICollectionView {
         backgroundColor = .systemBackground
         collectionViewLayout = generateLayout()
         registerReusableCell(AddShowCollectionViewCell.self)
-        
     }
     
     func generateLayout() -> UICollectionViewLayout {
@@ -48,6 +47,7 @@ class AddTVShowCollectionView: UICollectionView {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
+    
     
     func configureDataSource() {
         newDataSource = UICollectionViewDiffableDataSource

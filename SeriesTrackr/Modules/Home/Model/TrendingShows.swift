@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TrendingShows: Hashable {
+struct TrendingShows: Hashable {
     var showId: String
     var backgroundColor: UIColor
     init(showId: String, backgroundColor: UIColor) {
