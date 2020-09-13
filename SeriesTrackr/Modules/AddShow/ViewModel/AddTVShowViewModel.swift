@@ -10,51 +10,21 @@ import Foundation
 
 class AddTVShowViewModel {
     
-    var addShowCellVM: [AddShowCellVM]
     let parseService: ParseService
+    var addTVShowCollectionViewVM: AddTVShowCollectionViewVM
     
     var failedToAddShow: ((_ errorMessage: String)->())?
     var showAdded: (()->())?
-    
+    var isInputValid: ((_ enableSave: Bool)->())?
+
     init(parseService: ParseService) {
         self.parseService = parseService
-        let tvShowName = AddShowCellVM(inputType: .title, inputData: "")
-        let tvShowYearOfRelease = AddShowCellVM(inputType: .numberOfSeasons, inputData: "")
-        let tvShowNumberOfSeasons = AddShowCellVM(inputType: .yearOfRelease, inputData: "")
-        addShowCellVM = [tvShowName, tvShowYearOfRelease, tvShowNumberOfSeasons]
-    }
-    
-    func isInputValid() -> Bool {
-        
-        var isValid = true
-        for field in addShowCellVM {
-            if field.inputText == "" {
-                isValid = false
-                break
-            }
-        }
-        return isValid
-    }
-    
-    func getShow() -> TVShow {
-        
-        let show = TVShow()
-        for field in addShowCellVM {
-            switch field.inputType {
-            case .title:
-                show.showId = field.inputText.filter { !$0.isWhitespace }.lowercased()
-                show.title = field.inputText
-            case .numberOfSeasons:
-                show.numberOfSeasons = Int(field.inputText) ?? 1
-            case .yearOfRelease:
-                show.yearOfRelease = Int(field.inputText) ?? 1970
-            }
-        }
-        return show
+        addTVShowCollectionViewVM = AddTVShowCollectionViewVM()
+        addTVShowCollectionViewVM.delegate = self
     }
     
     func saveShow() {
-        let show = getShow()
+        let show = addTVShowCollectionViewVM.getShow()
         parseService.save(show: show) { [weak self] result in
             switch result {
             case .success(_):
@@ -65,5 +35,11 @@ class AddTVShowViewModel {
                 self?.failedToAddShow?(error.localizedDescription)
             }
         }
+    }
+}
+
+extension AddTVShowViewModel: AddTVShowViewModelDelegate {
+    func input(isValid: Bool) {
+        isInputValid?(isValid)
     }
 }

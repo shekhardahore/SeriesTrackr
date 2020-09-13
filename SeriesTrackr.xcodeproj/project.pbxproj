@@ -33,6 +33,9 @@
 		2AC527EE250D63AE0068EE0C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527ED250D63AE0068EE0C /* UIViewController+Extensions.swift */; };
 		2AC527F0250D67DA0068EE0C /* AlertDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527EF250D67DA0068EE0C /* AlertDisplayable.swift */; };
 		2AC527F2250D686D0068EE0C /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527F1250D686D0068EE0C /* String+Extensions.swift */; };
+		2AC527F4250D6F020068EE0C /* AddTVShowCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527F3250D6F020068EE0C /* AddTVShowCollectionView.swift */; };
+		2AC527F6250E05770068EE0C /* AddTVShowViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527F5250E05770068EE0C /* AddTVShowViewModelDelegate.swift */; };
+		2AC527F8250E05940068EE0C /* AddTVShowCollectionViewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC527F7250E05940068EE0C /* AddTVShowCollectionViewVM.swift */; };
 		2AF7FECC2508C96D004759C2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF7FECB2508C96D004759C2 /* HomeViewController.swift */; };
 		35EC3E8B6CE8154776EE093E /* Pods_SeriesTrackr_SeriesTrackrUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7AB8278FE9B3FF400BB22B3 /* Pods_SeriesTrackr_SeriesTrackrUITests.framework */; };
 		BADAB9A7697E33CFAB405642 /* Pods_SeriesTrackr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7F9E815FE7707ACF14E9E58 /* Pods_SeriesTrackr.framework */; };
@@ -89,6 +92,9 @@
 		2AC527ED250D63AE0068EE0C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		2AC527EF250D67DA0068EE0C /* AlertDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDisplayable.swift; sourceTree = "<group>"; };
 		2AC527F1250D686D0068EE0C /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		2AC527F3250D6F020068EE0C /* AddTVShowCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTVShowCollectionView.swift; sourceTree = "<group>"; };
+		2AC527F5250E05770068EE0C /* AddTVShowViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTVShowViewModelDelegate.swift; sourceTree = "<group>"; };
+		2AC527F7250E05940068EE0C /* AddTVShowCollectionViewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTVShowCollectionViewVM.swift; sourceTree = "<group>"; };
 		2AF7FECB2508C96D004759C2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		571BEE4392D8BF04308DAB6D /* Pods-SeriesTrackrTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeriesTrackrTests.release.xcconfig"; path = "Target Support Files/Pods-SeriesTrackrTests/Pods-SeriesTrackrTests.release.xcconfig"; sourceTree = "<group>"; };
 		795CD0063DFD34A23A11258D /* Pods-SeriesTrackr-SeriesTrackrUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeriesTrackr-SeriesTrackrUITests.debug.xcconfig"; path = "Target Support Files/Pods-SeriesTrackr-SeriesTrackrUITests/Pods-SeriesTrackr-SeriesTrackrUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -257,6 +263,7 @@
 				2A9ED71E250CB7CA00B7149B /* Reusable.swift */,
 				2A9ED729250CFA7500B7149B /* Router.swift */,
 				2AC527EF250D67DA0068EE0C /* AlertDisplayable.swift */,
+				2AC527F5250E05770068EE0C /* AddTVShowViewModelDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -316,6 +323,7 @@
 			children = (
 				2A9ED733250D0F6000B7149B /* Cell */,
 				2A9ED731250D059D00B7149B /* AddTVShowViewController.swift */,
+				2AC527F3250D6F020068EE0C /* AddTVShowCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -333,6 +341,7 @@
 			children = (
 				2AC527E7250D5FD20068EE0C /* AddTVShowViewModel.swift */,
 				2AC527EB250D61260068EE0C /* AddShowCellVM.swift */,
+				2AC527F7250E05940068EE0C /* AddTVShowCollectionViewVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -618,7 +627,10 @@
 				2A9ED71F250CB7CA00B7149B /* Reusable.swift in Sources */,
 				2A9ED725250CD4A200B7149B /* TrendingShows.swift in Sources */,
 				2A9ED70D250CACEF00B7149B /* ParseService.swift in Sources */,
+				2AC527F4250D6F020068EE0C /* AddTVShowCollectionView.swift in Sources */,
+				2AC527F8250E05940068EE0C /* AddTVShowCollectionViewVM.swift in Sources */,
 				2AC527EE250D63AE0068EE0C /* UIViewController+Extensions.swift in Sources */,
+				2AC527F6250E05770068EE0C /* AddTVShowViewModelDelegate.swift in Sources */,
 				2A9ED71C250CB79900B7149B /* UICollectionView+Extensions.swift in Sources */,
 				2AC527EC250D61260068EE0C /* AddShowCellVM.swift in Sources */,
 				2A9ED72D250CFAC900B7149B /* HomeRouter.swift in Sources */,

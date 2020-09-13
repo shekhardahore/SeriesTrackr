@@ -10,28 +10,18 @@ import UIKit
 
 class AddTVShowViewController: UIViewController, AlertDisplayable {
     
-    var addTVShowCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        collectionView.backgroundColor = .systemBackground
-        return collectionView
-    }()
+    var addTVShowCollectionView: UICollectionView
     
     var btnSave: UIBarButtonItem = {
         let barButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(AddTVShowViewController.onSave(_:)))
         return barButton
     }()
     
-    enum Section {
-        case tvShowInfo
-    }
-    
-    var dataSource: UICollectionViewDiffableDataSource<Section, AddShowCellVM>! = nil
     var viewModel: AddTVShowViewModel
     
     init(viewModel: AddTVShowViewModel) {
         self.viewModel = viewModel
+        addTVShowCollectionView = AddTVShowCollectionView(viewModel: viewModel.addTVShowCollectionViewVM)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,9 +42,15 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
         title = "Add TV Show"
         addSubviews()
         addConstrains()
-        configureCollectionView()
-        configureDataSource()
-        isInputValid()
+        btnSave.isEnabled = false
+        viewModel.isInputValid = { [weak self] (enableSave: Bool) in
+            guard let `self` = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.btnSave.isEnabled = enableSave
+            }
+        }
         viewModel.showAdded = { [weak self] in
             guard let `self` = self else {
                 return
@@ -93,56 +89,9 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
         ])
     }
     
-    func configureCollectionView() {
-        addTVShowCollectionView.collectionViewLayout = generateLayout()
-        addTVShowCollectionView.registerReusableCell(AddShowCollectionViewCell.self)
-    }
-    
-    func generateLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(75))
-        let textFieldItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        textFieldItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [textFieldItem])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-    
-    func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource
-            <Section, AddShowCellVM>(collectionView: addTVShowCollectionView) {
-                (collectionView: UICollectionView, indexPath: IndexPath, detailItem: AddShowCellVM) -> UICollectionViewCell? in
-                let cell = collectionView.dequeueReusableCell(indexPath: indexPath) as AddShowCollectionViewCell
-                cell.cellModel = detailItem
-                cell.textUpdated = { [weak self] in
-                    DispatchQueue.main.async {
-                        self?.isInputValid()
-                    }
-                }
-                return cell
-        }
-        let snapshot = snapshotForCurrentState()
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-    
-    func snapshotForCurrentState() -> NSDiffableDataSourceSnapshot<Section, AddShowCellVM> {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, AddShowCellVM>()
-        snapshot.appendSections([Section.tvShowInfo])
-        snapshot.appendItems(viewModel.addShowCellVM)
-        return snapshot
-    }
-    
     @objc func onSave(_ sender: UIBarButtonItem) {
-        print("onSave")
         btnSave.isEnabled = false
         self.showSpinner()
         viewModel.saveShow()
-    }
-    
-    func isInputValid() {
-        btnSave.isEnabled = viewModel.isInputValid()
     }
 }
