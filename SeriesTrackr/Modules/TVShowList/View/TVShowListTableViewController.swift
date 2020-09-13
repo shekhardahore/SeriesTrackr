@@ -17,7 +17,14 @@ enum TVShowListTableViewSectionType {
 class TVShowListTableViewController: UITableView {
     
     unowned var viewModel: TVShowListTableViewVM
-    var tableViewDataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel>! = nil
+    
+    class DataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel> {
+        override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+    }
+    
+    var tableViewDataSource: DataSource! = nil
     var searchController = UISearchController(searchResultsController: nil)
 
     init(viewModel: TVShowListTableViewVM) {
@@ -43,6 +50,7 @@ class TVShowListTableViewController: UITableView {
     func setupTableView() {
         translatesAutoresizingMaskIntoConstraints = false
         insetsContentViewsToSafeArea = true
+        delegate = self
         estimatedRowHeight = 100.0
         rowHeight = UITableView.automaticDimension
         tableFooterView = UIView()
@@ -50,8 +58,7 @@ class TVShowListTableViewController: UITableView {
     }
     
     func configureDataSource() {
-        tableViewDataSource = UITableViewDiffableDataSource
-            <TVShowListTableViewSectionType, TVShowListModel>(tableView: self) {
+        tableViewDataSource = DataSource(tableView: self) {
                 (tableView: UITableView, indexPath: IndexPath, detailItem: TVShowListModel) -> UITableViewCell? in
                 let cell = tableView.dequeueReusableCell(indexPath: indexPath) as TVShowListTableViewCell
                 cell.cellModel = detailItem
@@ -64,5 +71,26 @@ class TVShowListTableViewController: UITableView {
         snapshot.appendSections([TVShowListTableViewSectionType.watched])
         snapshot.appendItems(viewModel.tableViewCellVMs ?? [])
         tableViewDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+}
+
+extension TVShowListTableViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let add = UIContextualAction(style: .normal, title: "add2") { (action, view, completion ) in
+            print("add2 called, table is Editing \(tableView.isEditing)")
+            tableView.isEditing = false
+            
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "delete2") { (action, view, completion ) in
+            print("delete button clicked, is Editing \(tableView.isEditing)")
+            tableView.isEditing = false
+        }
+        let config = UISwipeActionsConfiguration(actions: [add, delete])
+        return config
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("select")
     }
 }
