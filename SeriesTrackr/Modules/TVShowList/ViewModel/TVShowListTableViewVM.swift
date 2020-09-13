@@ -10,28 +10,34 @@ import Foundation
 
 class TVShowListTableViewVM {
     
-    var tableViewCellVMs: [TVShowListModel]? {
-        didSet {
-            updateTableView?()
-        }
-    }
+    var tableViewCellVMs: [TVShowListModel]?
     var tvShowData: [TVShow]? {
         didSet {
-            configureCellVM()
+            tableViewCellVMs = configureCellVM(withShows: tvShowData ?? [])
+            updateTableView?(true)
         }
     }
     
-    var updateTableView: (()->())?
+    var updateTableView: ((_ animate: Bool)->())?
     
-    func configureCellVM() {
+    func configureCellVM(withShows shows: [TVShow]) -> [TVShowListModel] {
         var cellVMs: [TVShowListModel] = []
-        guard let shows = tvShowData else {
-            tableViewCellVMs = cellVMs
-            return
-        }
         for show in shows {
             cellVMs.append(TVShowListModel(show: show))
         }
-        tableViewCellVMs = cellVMs
+        return cellVMs
+    }
+    
+    func filter(withText text: String) {
+        guard var shows = tvShowData, text != "" else {
+            tableViewCellVMs = configureCellVM(withShows: tvShowData ?? [])
+            updateTableView?(false)
+            return
+        }
+        shows = shows.filter { show in
+            return show.title.lowercased().contains(text.lowercased())
+        }
+        tableViewCellVMs = configureCellVM(withShows: shows)
+        updateTableView?(false)
     }
 }

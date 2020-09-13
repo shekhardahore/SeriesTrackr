@@ -12,7 +12,8 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
 
     var tvShowListTableView: TVShowListTableViewController
     var viewModel: TVShowListVM
-    
+    private var searchController = UISearchController(searchResultsController: nil)
+
     init(viewModel: TVShowListVM) {
         self.viewModel = viewModel
         tvShowListTableView = TVShowListTableViewController(viewModel: viewModel.tvShowListTableViewVM)
@@ -35,7 +36,10 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
             guard let `self` = self else {
                 return
             }
-            self.hideSpinner()
+            DispatchQueue.main.async {
+                self.hideSpinner()
+                self.configureSearchController()
+            }
         }
         viewModel.requestFailure = { [weak self] (errorMessage: String) in
             guard let `self` = self else {
@@ -53,12 +57,27 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
     }
     
     func addConstrains() {
-        let padding: CGFloat = 20
         NSLayoutConstraint.activate([
-            tvShowListTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
+            tvShowListTableView.topAnchor.constraint(equalTo: view.topAnchor),
             tvShowListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tvShowListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tvShowListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+}
+
+extension TVShowListViewController: UISearchResultsUpdating {
+    
+    func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search TV Show".localizedString
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text {                self.viewModel.tvShowListTableViewVM.filter(withText: text)
+        }
     }
 }

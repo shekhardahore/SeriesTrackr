@@ -50,6 +50,7 @@ class TVShowListTableViewCell: UITableViewCell, Reusable {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()
         addConstrains()
+        selectionStyle = .none
     }
 
     required init?(coder: NSCoder) {
@@ -79,8 +80,6 @@ class TVShowListTableViewCell: UITableViewCell, Reusable {
         lblTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         lblTitle.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         lblTitle.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        lblYearOfRelease.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        lblNumberOfSeasons.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        lblYearOfRelease.setContentHuggingPriority(.init(rawValue: 500), for: .vertical)
     }
-
 }

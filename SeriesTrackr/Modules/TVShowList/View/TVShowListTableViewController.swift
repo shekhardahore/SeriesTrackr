@@ -18,19 +18,20 @@ class TVShowListTableViewController: UITableView {
     
     unowned var viewModel: TVShowListTableViewVM
     var tableViewDataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel>! = nil
-    
+    var searchController = UISearchController(searchResultsController: nil)
+
     init(viewModel: TVShowListTableViewVM) {
         self.viewModel = viewModel
         super.init(frame: .zero, style: .grouped)
         setupTableView()
         configureDataSource()
-        snapshotForCurrentState()
-        viewModel.updateTableView = { [weak self] in
+        applySnapshot(animatingDifferences: false)
+        viewModel.updateTableView = { [weak self] (animate: Bool) in
             guard let `self` = self else {
                 return
             }
             DispatchQueue.main.async {
-                self.snapshotForCurrentState()
+                self.applySnapshot(animatingDifferences: animate)
             }
         }
     }
@@ -58,11 +59,10 @@ class TVShowListTableViewController: UITableView {
         }
     }
     
-    func snapshotForCurrentState() {
+    func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
         snapshot.appendSections([TVShowListTableViewSectionType.watched])
         snapshot.appendItems(viewModel.tableViewCellVMs ?? [])
-        tableViewDataSource.apply(snapshot, animatingDifferences: false)
+        tableViewDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
-    
 }

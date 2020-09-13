@@ -12,4 +12,8 @@ extension String {
     var localizedString: String {
         return NSLocalizedString(self, comment: "")
     }
+    
+    var uuidString: String  {
+        return self.filter { !$0.isWhitespace }.lowercased()
+    }
 }

@@ -9,21 +9,22 @@
 import Foundation
 
 class TVShowListModel: Hashable {
-    
+    var id: String
     var titleText: String
     var yearOfReleaseText: String
     var numberOfSeasonsText: String
     
     init(show: TVShow) {
+        id = show.title.uuidString
         titleText = show.title
         yearOfReleaseText = "\(show.yearOfRelease)"
         numberOfSeasonsText = "\(show.numberOfSeasons) \((show.numberOfSeasons > 1) ? "seasons".localizedString : "season".localizedString)"
     }
     func hash(into hasher: inout Hasher) {
-        hasher.combine(titleText)
+        hasher.combine(id)
     }
     
     static func == (lhs: TVShowListModel, rhs: TVShowListModel) -> Bool {
-        lhs.titleText == rhs.titleText
+        lhs.id == rhs.id
     }
 }

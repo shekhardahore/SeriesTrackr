@@ -38,7 +38,7 @@ class AddTVShowCollectionViewVM {
         for field in addShowCellVM {
             switch field.inputType {
             case .title:
-                show.showId = field.inputText.filter { !$0.isWhitespace }.lowercased()
+                show.showId = field.inputText.uuidString
                 show.title = field.inputText
             case .numberOfSeasons:
                 show.numberOfSeasons = Int(field.inputText) ?? 1
