@@ -51,7 +51,7 @@ class YearPickerView: UIPickerView {
         self.dataSource = self
         
         let currentYear = Calendar(identifier: .gregorian).component(.year, from: Date())
-        selectRow(currentYear, inComponent: 0, animated: false)
+        selectRow(years.firstIndex(of: currentYear)!, inComponent: 0, animated: false)
     }
 }
 
