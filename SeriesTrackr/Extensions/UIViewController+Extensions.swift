@@ -13,11 +13,20 @@ fileprivate var aView: UIView?
 extension UIViewController {
     func showSpinner() {
         aView = UIView(frame: self.view.bounds)
-        aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        aView?.backgroundColor = .clear
+        
+        let blurView = UIVisualEffectView()
+        blurView.frame.size = CGSize(width: 80, height: 80)
+        blurView.center = aView!.center
+        blurView.effect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+        blurView.layer.cornerRadius = 8
+        blurView.layer.masksToBounds = true
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.tintColor = .black
         activityIndicator.center = aView!.center
         activityIndicator.startAnimating()
+        aView?.addSubview(blurView)
         aView?.addSubview(activityIndicator)
         self.view.addSubview(aView!)
     }
