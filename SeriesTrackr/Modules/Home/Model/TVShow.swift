@@ -14,6 +14,7 @@ class TVShow: PFObject, PFSubclassing {
     @NSManaged var title: String
     @NSManaged var yearOfRelease: Int
     @NSManaged var numberOfSeasons: Int
+    @NSManaged var watchStatus: Int
     static func parseClassName() -> String {
         return ParseClassNames.tvShow
     }

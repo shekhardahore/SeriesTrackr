@@ -36,7 +36,7 @@ class ParseService {
                     completion(.failure(.duplicateShow))
                 }
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
     }
@@ -74,6 +74,8 @@ class ParseService {
                     completion(.failure(.noDataFound))
                 } else if error?._code == PFErrorCode.errorConnectionFailed.rawValue {
                     completion(.failure(.requestFailed))
+                } else if error?._code == PFErrorCode.errorCacheMiss.rawValue {
+                    completion(.failure(.cacheMiss))
                 } else {
                     let errorString = error?._userInfo!["error"] as? NSString
                     print("Error: \(errorString ?? "")")
@@ -97,5 +99,16 @@ class ParseService {
         //        beforeSave(show: show) { result in
         //            completion(result)
         //        }
+    }
+    
+    func delete(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
+        show.deleteInBackground { (success, error) in
+            if error != nil || !success {
+                completion(.failure(.unknown))
+            } else {
+                PFQuery.clearAllCachedResults()
+                completion(.success(true))
+            }
+        }
     }
 }

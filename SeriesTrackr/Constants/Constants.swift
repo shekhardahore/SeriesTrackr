@@ -13,5 +13,5 @@ struct ParseObjectKeys {
 }
 
 struct ParseClassNames {
-    static let tvShow = "TVShow"
+    static let tvShow = "NewTVShow"
 }

@@ -158,30 +158,5 @@ class HomeViewController: UIViewController {
 
     @objc func onAddNewTVShow(_ sender: UIButton) {
         router.route(to: Route.addNewTVShow.rawValue, from: self, data: nil)
-//        let title = "The Boys"
-//        let onjectId = title.filter { !$0.isWhitespace }.lowercased()
-//
-//        let show = TVShow()
-//        show.showId = onjectId
-//        show.title = title.trimmingCharacters(in: .whitespacesAndNewlines)
-//        show.numberOfSeasons = 2
-//        show.yearOfRelease = 2019
-//
-//
-//
-//        ParseService.checkForDuplicate(show: show) { result in
-//            print(result)
-//        }
-//
-//        ParseService.getShowList { result in
-//            switch result {
-//            case .success(let shows):
-//                for show in shows {
-//                    print(show["title"] ?? "No title found///")
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
     }
 }

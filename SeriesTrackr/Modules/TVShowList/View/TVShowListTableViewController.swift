@@ -7,13 +7,31 @@
 //
 
 import UIKit
+protocol TVShowListTableViewDelegate: class {
+    func didDeleteShow(atIndex index: IndexPath)
+}
 
 class TVShowListTableViewController: UITableView {
 
-    class DataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel> {
+    class DataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel>  {
+        
+        weak var dataSourceDelegate: TVShowListTableViewDelegate?
+        
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
             return true
         }
+
+        override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                if let identifierToDelete = itemIdentifier(for: indexPath) {
+                    var snapshot = self.snapshot()
+                    snapshot.deleteItems([identifierToDelete])
+                    apply(snapshot)
+                    dataSourceDelegate?.didDeleteShow(atIndex: indexPath)
+                }
+            }
+        }
+        
         override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
             switch section {
             case 0:
@@ -46,6 +64,14 @@ class TVShowListTableViewController: UITableView {
                 self.applySnapshot(animatingDifferences: animate)
             }
         }
+        viewModel.searchWith = { [weak self] (filter: String?) in
+            guard let `self` = self else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.performQuery(with: filter)
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -69,13 +95,22 @@ class TVShowListTableViewController: UITableView {
                 cell.cellModel = detailItem
                 return cell
         }
+        tableViewDataSource.dataSourceDelegate = self
     }
     
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
         snapshot.appendSections([TVShowListTableViewSectionType.watched])
-        snapshot.appendItems(viewModel.tableViewCellVMs ?? [])
+        snapshot.appendItems(viewModel.tableViewCellVMs)
         tableViewDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
+    func performQuery(with filter: String?) {
+        let shows = viewModel.filtered(with: filter)
+        var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
+        snapshot.appendSections([TVShowListTableViewSectionType.watched])
+        snapshot.appendItems(shows)
+        tableViewDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -88,11 +123,17 @@ extension TVShowListTableViewController: UITableViewDelegate {
             
         }
         
-        let delete = UIContextualAction(style: .destructive, title: "delete2") { (action, view, completion ) in
-            print("delete button clicked, is Editing \(tableView.isEditing)")
-            tableView.isEditing = false
-        }
-        let config = UISwipeActionsConfiguration(actions: [add, delete])
+//        let delete = UIContextualAction(style: .destructive, title: "delete2") { (action, view, completion ) in
+//            print("delete button clicked, is Editing \(tableView.isEditing)")
+//            tableView.isEditing = false
+//        }
+        let config = UISwipeActionsConfiguration(actions: [add])
         return config
+    }
+}
+
+extension TVShowListTableViewController: TVShowListTableViewDelegate {
+    func didDeleteShow(atIndex index: IndexPath) {
+        viewModel.deleteShow(atIndex: index)
     }
 }

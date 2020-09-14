@@ -28,10 +28,8 @@ class AddTVShowViewModel {
         parseService.save(show: show) { [weak self] result in
             switch result {
             case .success(_):
-                print("Show saved")
                 self?.showAdded?()
             case .failure(let error):
-                print(error)
                 self?.failedToAddShow?(error.errorDescription)
             }
         }

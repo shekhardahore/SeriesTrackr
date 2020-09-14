@@ -16,7 +16,7 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
 
     init(viewModel: TVShowListVM) {
         self.viewModel = viewModel
-        tvShowListTableView = TVShowListTableViewController(viewModel: viewModel.tvShowListTableViewVM)
+        tvShowListTableView = TVShowListTableViewController(viewModel: viewModel.tvShowListTableViewVM )
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -77,7 +77,7 @@ extension TVShowListViewController: UISearchResultsUpdating {
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text {                self.viewModel.tvShowListTableViewVM.filter(withText: text)
+        if let text = searchController.searchBar.text {                self.viewModel.tvShowListTableViewVM.searchWith?(text)
         }
     }
 }

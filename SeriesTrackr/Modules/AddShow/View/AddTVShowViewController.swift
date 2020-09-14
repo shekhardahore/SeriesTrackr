@@ -76,7 +76,6 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
     func addConstrains() {
         let padding: CGFloat = 20
         NSLayoutConstraint.activate([
-            //CollectionView
             addTVShowCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
             addTVShowCollectionView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             addTVShowCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),

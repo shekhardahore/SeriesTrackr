@@ -46,6 +46,7 @@ class AddTVShowCollectionViewVM {
                 show.yearOfRelease = Int(field.inputText) ?? 1970
             }
         }
+        show.watchStatus = TVShowWatchStatus.watching.rawValue
         return show
     }
 }
