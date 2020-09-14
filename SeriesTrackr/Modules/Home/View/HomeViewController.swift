@@ -19,14 +19,14 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
         
-    var btnAddNewTVShow: STButton = {
-        var button = STButton(title: "Add new TV show")
+    var btnAddNewSeries: STButton = {
+        var button = STButton(title: "Add new series to track".localizedString)
         button.addTarget(self, action: #selector(HomeViewController.onAddNewTVShow(_:)), for: .touchUpInside)
         return button
     }()
     
-    var btnAllShows: STButton = {
-        var button = STButton(title: "All shows")
+    var btnSeriesLibrary: STButton = {
+        var button = STButton(title: "Series library".localizedString)
         button.addTarget(self, action: #selector(HomeViewController.onAllShows(_:)), for: .touchUpInside)
         return button
     }()
@@ -67,7 +67,7 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         title = "SeriesTrackr"
         addSubviews()
         addConstrains()
@@ -77,8 +77,8 @@ class HomeViewController: UIViewController {
     
     func addSubviews() {
         view.addSubview(homeCollectionView)
-        view.addSubview(btnAddNewTVShow)
-        view.addSubview(btnAllShows)
+        view.addSubview(btnAddNewSeries)
+        view.addSubview(btnSeriesLibrary)
     }
     
     func addConstrains() {
@@ -90,17 +90,17 @@ class HomeViewController: UIViewController {
             homeCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             homeCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 1/3),
             
-            //Add TV show button
-            btnAllShows.topAnchor.constraint(equalTo: homeCollectionView.bottomAnchor, constant: padding),
-            btnAllShows.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
-            btnAllShows.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
-            btnAllShows.heightAnchor.constraint(equalToConstant: 50),
-            
-            //Show TV shows button
-            btnAddNewTVShow.topAnchor.constraint(equalTo: btnAllShows.bottomAnchor, constant: padding),
-            btnAddNewTVShow.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
-            btnAddNewTVShow.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
-            btnAddNewTVShow.heightAnchor.constraint(equalToConstant: 50)
+            //add series button
+            btnAddNewSeries.topAnchor.constraint(equalTo: homeCollectionView.bottomAnchor, constant: padding),
+            btnAddNewSeries.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            btnAddNewSeries.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            btnAddNewSeries.heightAnchor.constraint(equalToConstant: 50),
+
+            //show library button
+            btnSeriesLibrary.topAnchor.constraint(equalTo: btnAddNewSeries.bottomAnchor, constant: padding),
+            btnSeriesLibrary.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            btnSeriesLibrary.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
+            btnSeriesLibrary.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     

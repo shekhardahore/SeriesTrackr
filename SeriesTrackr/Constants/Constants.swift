@@ -15,7 +15,3 @@ struct ParseObjectKeys {
 struct ParseClassNames {
     static let tvShow = "TVShow"
 }
-
-enum NetworkError: Error {
-    case badURL, requestFailed, unknown, missingObjectId, noDataFound, duplicateShow
-}

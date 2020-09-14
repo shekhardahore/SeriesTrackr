@@ -14,7 +14,7 @@ class TVShowListTableViewVM {
     var tvShowData: [TVShow]? {
         didSet {
             tableViewCellVMs = configureCellVM(withShows: tvShowData ?? [])
-            updateTableView?(true)
+            updateTableView?(false)
         }
     }
     

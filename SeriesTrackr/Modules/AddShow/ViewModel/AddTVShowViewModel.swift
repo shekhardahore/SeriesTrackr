@@ -32,7 +32,7 @@ class AddTVShowViewModel {
                 self?.showAdded?()
             case .failure(let error):
                 print(error)
-                self?.failedToAddShow?(error.localizedDescription)
+                self?.failedToAddShow?(error.errorDescription)
             }
         }
     }

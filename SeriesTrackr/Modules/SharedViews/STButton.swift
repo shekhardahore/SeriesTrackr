@@ -16,7 +16,7 @@ class STButton: UIButton {
     
     init(title: String) {
         super.init(frame: .zero)
-        backgroundColor = .systemTeal
+        backgroundColor = .systemBlue
         layer.cornerRadius = 8
         layer.masksToBounds = true
         translatesAutoresizingMaskIntoConstraints = false

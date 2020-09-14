@@ -26,8 +26,8 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "TV Show list"
-        view.backgroundColor = .systemBackground
+        title = "Series library"
+        view.backgroundColor = .systemGray6
         addSubviews()
         addConstrains()
         self.showSpinner()
@@ -47,7 +47,7 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
             }
             DispatchQueue.main.async {
                 self.hideSpinner()
-                self.displayAlertWith(title: "Error".localizedString, message: errorMessage)
+                self.displayAlertWith(message: errorMessage)
             }
         }
     }
@@ -58,10 +58,10 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
     
     func addConstrains() {
         NSLayoutConstraint.activate([
-            tvShowListTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tvShowListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tvShowListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tvShowListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            tvShowListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tvShowListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tvShowListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tvShowListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }

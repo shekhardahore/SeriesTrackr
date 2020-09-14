@@ -30,7 +30,7 @@ class AddTVShowCollectionView: UICollectionView {
     func setupCollectionView() {
         translatesAutoresizingMaskIntoConstraints = false
         autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        backgroundColor = .systemBackground
+        backgroundColor = .systemGray6
         collectionViewLayout = generateLayout()
         registerReusableCell(AddShowCollectionViewCell.self)
     }

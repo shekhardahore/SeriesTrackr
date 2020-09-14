@@ -22,7 +22,7 @@ extension InputType {
         case .numberOfSeasons:
             return .numberPad
         case .yearOfRelease:
-            return .numberPad
+            return .default
         }
     }
 }

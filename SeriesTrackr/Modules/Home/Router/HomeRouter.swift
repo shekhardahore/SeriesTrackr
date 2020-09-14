@@ -27,7 +27,7 @@ class HomeRouter: Router {
             }
         case .showAllShows:
             DispatchQueue.main.async {
-                let vc = TVShowListViewController(viewModel: TVShowListVM(parseService: ParseService()))
+                let vc = TVShowListViewController(viewModel: TVShowListVM(parseService: ParseService(), dataFilterService: DataFilterService()))
                 context.navigationController?.pushViewController(vc, animated: true)
             }
         }

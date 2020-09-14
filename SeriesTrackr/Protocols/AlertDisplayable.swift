@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AlertDisplayable {
-    func displayAlertWith(title: String, message: String)
+    func displayAlertWith(message: String)
 }
 
 extension AlertDisplayable where Self: UIViewController {
@@ -18,8 +18,8 @@ extension AlertDisplayable where Self: UIViewController {
     /// - Parameters:
     ///   - title: title of alert
     ///   - message: message of alert
-    func displayAlertWith(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    func displayAlertWith(message: String) {
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAction)

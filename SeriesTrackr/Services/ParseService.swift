@@ -15,7 +15,7 @@ class ParseService {
     
     //Saves show
     func save(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
-        checkForDuplicate(show: show) { result in
+        tvShowAlreadyExists(show: show) { result in
             switch result{
             case .success(let isDuplicate):
                 if !isDuplicate {
@@ -23,8 +23,13 @@ class ParseService {
                         if success {
                             completion(.success(true))
                         } else {
-                            print(error?.localizedDescription ?? "")
-                            completion(.failure(.requestFailed))
+                            if error?._code == PFErrorCode.errorConnectionFailed.rawValue {
+                                completion(.failure(.requestFailed))
+                            } else {
+                                let errorString = error?._userInfo!["error"] as? NSString
+                                print("Error: \(errorString ?? "")")
+                                completion(.failure(.unknown))
+                            }
                         }
                     }
                 } else {
@@ -37,38 +42,43 @@ class ParseService {
     }
     
     //Checks for duplicates
-    private func checkForDuplicate(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
+    private func tvShowAlreadyExists(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         let query = PFQuery(className: ParseClassNames.tvShow)
         query.whereKey(ParseObjectKeys.showId, equalTo: show.showId)
         query.getFirstObjectInBackground { (show, error) in
-            if let _ = show {
-                print("Everything went fine!")
-                completion(.success(true))
-            } else {
-                if let error = error {
-                    if error._code == PFErrorCode.errorObjectNotFound.rawValue {
-                        print("Uh oh, we couldn't find the object!")
-                        completion(.success(false))
-                    } else if error._code == PFErrorCode.errorConnectionFailed.rawValue {
-                        completion(.failure(.requestFailed))
-                        print("Uh oh, we couldn't even connect to the Parse Cloud!")
-                    } else {
-                        let errorString = error._userInfo!["error"] as? NSString
-                        print("Error: \(errorString ?? "")")
-                        completion(.failure(.unknown))
-                    }
+            guard let _ = show else {
+                if error?._code == PFErrorCode.errorObjectNotFound.rawValue {
+                    //TV show not found
+                    completion(.success(false))
+                } else if error?._code == PFErrorCode.errorConnectionFailed.rawValue {
+                    completion(.failure(.requestFailed))
+                } else {
+                    let errorString = error?._userInfo!["error"] as? NSString
+                    print("Error: \(errorString ?? "")")
+                    completion(.failure(.unknown))
                 }
+                return
             }
+            //TV show already exists
+            completion(.success(true))
         }
     }
     
     //Returns all the shows
     func getShowList(completion: @escaping ParseServiceCompletion<[TVShow]>) {
         let query = PFQuery(className:ParseClassNames.tvShow)
+        query.cachePolicy = .cacheThenNetwork
         query.findObjectsInBackground { (data, error) in
             guard error == nil else {
-                print(error?.localizedDescription ?? "")
-                completion(.failure(.unknown))
+                if error?._code == PFErrorCode.errorObjectNotFound.rawValue {
+                    completion(.failure(.noDataFound))
+                } else if error?._code == PFErrorCode.errorConnectionFailed.rawValue {
+                    completion(.failure(.requestFailed))
+                } else {
+                    let errorString = error?._userInfo!["error"] as? NSString
+                    print("Error: \(errorString ?? "")")
+                    completion(.failure(.unknown))
+                }
                 return
             }
             guard let data = data else {
@@ -79,7 +89,6 @@ class ParseService {
             for show in data {
                 shows.append(show as! TVShow)
             }
-            print("data retived")
             completion(.success(shows))
         }
     }

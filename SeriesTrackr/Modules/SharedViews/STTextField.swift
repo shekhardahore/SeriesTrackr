@@ -35,6 +35,7 @@ class STTextField: UITextField {
         layer.masksToBounds = true
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray3.cgColor
+        tintColor = .systemBlue
     }
     
     required init?(coder: NSCoder) {

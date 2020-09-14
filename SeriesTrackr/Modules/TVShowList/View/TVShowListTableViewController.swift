@@ -8,28 +8,33 @@
 
 import UIKit
 
-enum TVShowListTableViewSectionType {
-    case watching
-    case watchLater
-    case watched
-}
-
 class TVShowListTableViewController: UITableView {
-    
-    unowned var viewModel: TVShowListTableViewVM
-    
+
     class DataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel> {
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
             return true
         }
+        override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+            switch section {
+            case 0:
+                return TVShowListTableViewSectionType.watching.rawValue
+            case 1:
+                return TVShowListTableViewSectionType.watchLater.rawValue
+            case 2:
+                return TVShowListTableViewSectionType.watched.rawValue
+            default:
+                return nil
+            }
+        }
     }
     
+    unowned var viewModel: TVShowListTableViewVM
     var tableViewDataSource: DataSource! = nil
     var searchController = UISearchController(searchResultsController: nil)
 
     init(viewModel: TVShowListTableViewVM) {
         self.viewModel = viewModel
-        super.init(frame: .zero, style: .grouped)
+        super.init(frame: .zero, style: .insetGrouped)
         setupTableView()
         configureDataSource()
         applySnapshot(animatingDifferences: false)
@@ -89,8 +94,5 @@ extension TVShowListTableViewController: UITableViewDelegate {
         }
         let config = UISwipeActionsConfiguration(actions: [add, delete])
         return config
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("select")
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 class AddShowCollectionViewCell: UICollectionViewCell, Reusable {
-    
+
     var txtField: STTextField = {
         var textField = STTextField()
         return textField
@@ -29,7 +29,17 @@ class AddShowCollectionViewCell: UICollectionViewCell, Reusable {
                 return
             }
             lblTitle.text = model.titleText
-            txtField.keyboardType = model.inputType.keyboardType()
+            if model.inputType == .yearOfRelease {
+                let picker = YearPickerView()
+                txtField.inputView = picker
+                picker.onYearSelect = { [weak self] (_ year: Int) in
+                    self?.txtField.text = "\(year)"
+                    self?.cellModel?.updateInput(newValue: "\(year)")
+                    self?.textUpdated?()
+                }
+            } else {
+                txtField.keyboardType = model.inputType.keyboardType()
+            }
             txtField.text = model.inputText
         }
     }
@@ -39,8 +49,8 @@ class AddShowCollectionViewCell: UICollectionViewCell, Reusable {
         super.init(frame: frame)
         addViews()
         addConstrains()
-        txtField.delegate = self
-        txtField.addTarget(self, action: #selector(AddShowCollectionViewCell.textFieldDidChange(_:)), for: .editingChanged)
+        setupTextField()
+        setupToolBar()
     }
     
     func addViews() {
@@ -59,6 +69,20 @@ class AddShowCollectionViewCell: UICollectionViewCell, Reusable {
             txtField.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
         ])
         lblTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    }
+    
+    func setupTextField() {
+        txtField.delegate = self
+        txtField.addTarget(self, action: #selector(AddShowCollectionViewCell.textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    func setupToolBar() {
+        let toolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 44))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(AddShowCollectionViewCell.onDone(_:)))
+        toolbar.setItems([flexSpace, doneBtn], animated: false)
+        toolbar.sizeToFit()
+        txtField.inputAccessoryView = toolbar
     }
     
     required init?(coder: NSCoder) {
@@ -82,5 +106,9 @@ extension AddShowCollectionViewCell: UITextFieldDelegate {
         }
         cellModel?.updateInput(newValue: newValue)
         textUpdated?()
+    }
+    
+    @objc func onDone(_ button: UIBarButtonItem) {
+        txtField.resignFirstResponder()
     }
 }

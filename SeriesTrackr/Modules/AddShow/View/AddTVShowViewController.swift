@@ -11,10 +11,7 @@ import UIKit
 class AddTVShowViewController: UIViewController, AlertDisplayable {
     
     var addTVShowCollectionView: AddTVShowCollectionView
-    var btnSave: UIBarButtonItem = {
-        let barButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(AddTVShowViewController.onSave(_:)))
-        return barButton
-    }()
+    var btnSave: UIBarButtonItem!
 
     var viewModel: AddTVShowViewModel
     
@@ -35,7 +32,8 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Add TV Show"
+        title = "Add new series".localizedString
+        view.backgroundColor = .systemGray6
         addSubviews()
         addConstrains()
         btnSave.isEnabled = false
@@ -63,7 +61,7 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
             }
             DispatchQueue.main.async {
                 self.hideSpinner()
-                self.displayAlertWith(title: "Error".localizedString, message: errorMessage)
+                self.displayAlertWith(message: errorMessage)
                 self.btnSave.isEnabled = true
             }
         }
@@ -71,6 +69,7 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
     
     func addSubviews() {
         view.addSubview(addTVShowCollectionView)
+        btnSave = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.save, target: self, action: #selector(AddTVShowViewController.onSave(_:)))
         self.navigationItem.rightBarButtonItem = btnSave
     }
     
@@ -78,10 +77,10 @@ class AddTVShowViewController: UIViewController, AlertDisplayable {
         let padding: CGFloat = 20
         NSLayoutConstraint.activate([
             //CollectionView
-            addTVShowCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
-            addTVShowCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            addTVShowCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            addTVShowCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            addTVShowCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: padding),
+            addTVShowCollectionView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            addTVShowCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            addTVShowCollectionView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
     

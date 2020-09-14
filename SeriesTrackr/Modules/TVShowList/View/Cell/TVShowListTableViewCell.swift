@@ -14,7 +14,7 @@ class TVShowListTableViewCell: UITableViewCell, Reusable {
         var label = UILabel(frame: .zero)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .heavy)
         return label
     }()
     
@@ -45,7 +45,7 @@ class TVShowListTableViewCell: UITableViewCell, Reusable {
             lblNumberOfSeasons.text = model.numberOfSeasonsText
         }
     }
-    
+
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addViews()

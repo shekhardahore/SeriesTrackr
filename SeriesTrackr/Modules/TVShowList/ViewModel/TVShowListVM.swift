@@ -12,6 +12,7 @@ class TVShowListVM {
     
     var tvShowListTableViewVM: TVShowListTableViewVM
     let parseService: ParseService
+    let dataFilterService: DataFilterService
     var tvShows: [TVShow]? {
         didSet {
             tvShowListTableViewVM.tvShowData = tvShows
@@ -22,20 +23,29 @@ class TVShowListVM {
     var tvShowFetchComplete: (()->())?
     var requestFailure: ((_ errorMessage: String)->())?
     
-    init(parseService: ParseService) {
+    init(parseService: ParseService, dataFilterService: DataFilterService) {
         self.parseService = parseService
+        self.dataFilterService = dataFilterService
         self.tvShowListTableViewVM = TVShowListTableViewVM()
         //  tvShowListCollectionViewVM.delegate = self
     }
     
     func fetchAllShows() {
         parseService.getShowList { [weak self] (result) in
+            guard let `self` = self else {
+                return
+            }
             switch result {
             case .success(let shows):
-                self?.tvShows = DataFilterService().filterDuplicates(unfilteredTVShows: shows)
+                self.tvShows = self.dataFilterService.filterDuplicates(unfilteredTVShows: shows)
             case .failure(let error):
-                print(error.localizedDescription)
-                self?.requestFailure?(error.localizedDescription)
+                switch error {
+                case .cacheMiss:
+                    //log cache miss
+                    break
+                default:
+                    self.requestFailure?(error.errorDescription)
+                }
             }
         }
     }
