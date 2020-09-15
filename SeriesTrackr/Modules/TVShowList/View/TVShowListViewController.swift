@@ -24,6 +24,10 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Series library"
@@ -31,7 +35,8 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
         addSubviews()
         addConstrains()
         configureNavigationItem()
-        self.showSpinner()
+        configureKeyboardEvents()
+        showSpinner()
         viewModel.fetchAllShows()
         viewModel.tvShowFetchComplete = { [weak self] in
             guard let `self` = self else {
@@ -66,6 +71,22 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
         ])
     }
     
+    func configureKeyboardEvents() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyBoardWillShow(notification: NSNotification) {
+        if let keyBoardSize = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect {
+            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyBoardSize.height, right: 0)
+            tvShowListTableView.contentInset = contentInsets
+        }
+    }
+    
+    @objc func keyBoardWillHide(notification: NSNotification) {
+        tvShowListTableView.contentInset = UIEdgeInsets.zero
+    }
+    
     func configureNavigationItem() {
         let editingItem = UIBarButtonItem(title: tvShowListTableView.isEditing ? "Done".localizedString : "Edit".localizedString, style: .plain, target: self, action: #selector(toggleEditing))
         navigationItem.rightBarButtonItems = [editingItem]
@@ -82,7 +103,7 @@ extension TVShowListViewController: UISearchResultsUpdating {
     func configureSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search TV Show".localizedString
+        searchController.searchBar.placeholder = "Search series".localizedString
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
