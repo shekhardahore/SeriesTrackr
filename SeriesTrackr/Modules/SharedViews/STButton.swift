@@ -22,7 +22,6 @@ class STButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
         setTitle(title, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        setTitleColor(.systemBackground, for: .normal)
         setTitleColor(.systemFill, for: .highlighted)
     }
     
