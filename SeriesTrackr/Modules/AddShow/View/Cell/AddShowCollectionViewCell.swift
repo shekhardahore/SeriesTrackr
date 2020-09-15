@@ -92,10 +92,12 @@ class AddShowCollectionViewCell: UICollectionViewCell, Reusable {
 }
 
 extension AddShowCollectionViewCell: UITextFieldDelegate {
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         txtField.layer.borderColor = UIColor.systemBlue.cgColor
         lblTitle.textColor = .systemBlue
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         txtField.layer.borderColor = UIColor.systemGray3.cgColor
         lblTitle.textColor = .systemGray

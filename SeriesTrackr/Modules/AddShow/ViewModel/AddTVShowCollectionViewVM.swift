@@ -21,7 +21,6 @@ class AddTVShowCollectionViewVM {
     }
     
     func inputUpdate() {
-        
         var isValid = true
         for field in addShowCellVM {
             if field.inputText == "" {
@@ -33,12 +32,11 @@ class AddTVShowCollectionViewVM {
     }
     
     func getShow() -> TVShow {
-        
         let show = TVShow()
         for field in addShowCellVM {
             switch field.inputType {
             case .title:
-                show.showId = field.inputText.uuidString
+                show.showId = field.inputText.uuidStringForParse
                 show.title = field.inputText
             case .numberOfSeasons:
                 show.numberOfSeasons = Int(field.inputText) ?? 1

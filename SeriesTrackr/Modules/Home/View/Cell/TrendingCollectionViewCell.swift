@@ -27,7 +27,6 @@ class TrendingCollectionViewCell: UICollectionViewCell, Reusable {
         super.init(frame: frame)
         addViews()
         addConstrains()
-        //imgShow.frame = contentView.frame
     }
     
     required init?(coder: NSCoder) {

@@ -13,7 +13,7 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
     
-    var uuidString: String  {
+    var uuidStringForParse: String  {
         return self.filter { !$0.isWhitespace }.lowercased()
     }
 }

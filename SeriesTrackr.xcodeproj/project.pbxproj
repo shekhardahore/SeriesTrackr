@@ -27,7 +27,7 @@
 		2A9ED732250D059D00B7149B /* AddTVShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9ED731250D059D00B7149B /* AddTVShowViewController.swift */; };
 		2A9ED735250D0F8B00B7149B /* AddShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9ED734250D0F8B00B7149B /* AddShowCollectionViewCell.swift */; };
 		2A9ED737250D286600B7149B /* STTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9ED736250D286600B7149B /* STTextField.swift */; };
-		2AB1C1932511046A005AC9B7 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB1C1922511046A005AC9B7 /* DataSource.swift */; };
+		2AB1C1932511046A005AC9B7 /* TVShowListTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB1C1922511046A005AC9B7 /* TVShowListTableViewDataSource.swift */; };
 		2AB1C195251104CC005AC9B7 /* TVShowListTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB1C194251104CC005AC9B7 /* TVShowListTableViewDelegate.swift */; };
 		2AB1C19725110C89005AC9B7 /* TVShowListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB1C19625110C89005AC9B7 /* TVShowListViewModelDelegate.swift */; };
 		2AB1C19C251126AA005AC9B7 /* HomeCollecionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB1C19B251126AA005AC9B7 /* HomeCollecionView.swift */; };
@@ -102,7 +102,7 @@
 		2A9ED731250D059D00B7149B /* AddTVShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTVShowViewController.swift; sourceTree = "<group>"; };
 		2A9ED734250D0F8B00B7149B /* AddShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShowCollectionViewCell.swift; sourceTree = "<group>"; };
 		2A9ED736250D286600B7149B /* STTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STTextField.swift; sourceTree = "<group>"; };
-		2AB1C1922511046A005AC9B7 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		2AB1C1922511046A005AC9B7 /* TVShowListTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListTableViewDataSource.swift; sourceTree = "<group>"; };
 		2AB1C194251104CC005AC9B7 /* TVShowListTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListTableViewDelegate.swift; sourceTree = "<group>"; };
 		2AB1C19625110C89005AC9B7 /* TVShowListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVShowListViewModelDelegate.swift; sourceTree = "<group>"; };
 		2AB1C19B251126AA005AC9B7 /* HomeCollecionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollecionView.swift; sourceTree = "<group>"; };
@@ -388,7 +388,7 @@
 				2AC527FC250E5A920068EE0C /* Cell */,
 				2AC527FA250E11730068EE0C /* TVShowListViewController.swift */,
 				2AC5280B250E82960068EE0C /* TVShowListTableViewController.swift */,
-				2AB1C1922511046A005AC9B7 /* DataSource.swift */,
+				2AB1C1922511046A005AC9B7 /* TVShowListTableViewDataSource.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -691,7 +691,7 @@
 				2A9ED728250CF86100B7149B /* STButton.swift in Sources */,
 				2AC52802250E767A0068EE0C /* Array+Extensions.swift in Sources */,
 				2A9ED710250CAD6E00B7149B /* Constants.swift in Sources */,
-				2AB1C1932511046A005AC9B7 /* DataSource.swift in Sources */,
+				2AB1C1932511046A005AC9B7 /* TVShowListTableViewDataSource.swift in Sources */,
 				2A9ED713250CAE5300B7149B /* HomeViewModel.swift in Sources */,
 				2A9ED737250D286600B7149B /* STTextField.swift in Sources */,
 				2AC527EA250D60260068EE0C /* InputType.swift in Sources */,

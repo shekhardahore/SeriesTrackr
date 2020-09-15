@@ -11,7 +11,7 @@ import UIKit
 class TVShowListTableViewController: UITableView {
 
     unowned var viewModel: TVShowListTableViewVM
-    var tableViewDataSource: DataSource! = nil
+    var tableViewDataSource: TVShowListTableViewDataSource! = nil
     var searchController = UISearchController(searchResultsController: nil)
 
     init(viewModel: TVShowListTableViewVM) {
@@ -52,7 +52,7 @@ class TVShowListTableViewController: UITableView {
     }
     
     func configureDataSource() {
-        tableViewDataSource = DataSource(tableView: self) {
+        tableViewDataSource = TVShowListTableViewDataSource(tableView: self) {
                 (tableView: UITableView, indexPath: IndexPath, detailItem: TVShowListModel) -> UITableViewCell? in
                 let cell = tableView.dequeueReusableCell(indexPath: indexPath) as TVShowListTableViewCell
                 cell.cellModel = detailItem

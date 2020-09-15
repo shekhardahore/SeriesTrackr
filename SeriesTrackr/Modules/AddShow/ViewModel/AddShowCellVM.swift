@@ -12,6 +12,7 @@ class AddShowCellVM: Hashable {
     var titleText: String
     var inputType: InputType
     var inputText: String
+    
     init(inputType: InputType, inputData: String) {
         self.inputType = inputType
         self.titleText = inputType.rawValue

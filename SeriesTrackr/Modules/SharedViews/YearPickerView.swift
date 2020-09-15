@@ -11,7 +11,6 @@ import UIKit
 class YearPickerView: UIPickerView {
     
     var years: [Int]!
-    
     var year = Calendar.current.component(.year, from: Date()) {
         didSet {
             selectRow(years.firstIndex(of: year)!, inComponent: 0, animated: true)
@@ -34,29 +33,23 @@ class YearPickerView: UIPickerView {
         var years: [Int] = []
         if years.count == 0 {
             var dateComponent = DateComponents()
-   
             dateComponent.year = -51
-            
             let futureDate = Calendar.current.date(byAdding: dateComponent, to: Date())
             var year = Calendar(identifier: .gregorian).component(.year, from: futureDate!)
-            
             for _ in 1...100 {
                 years.append(year)
                 year += 1
             }
         }
         self.years = years
-        
         self.delegate = self
         self.dataSource = self
-        
         let currentYear = Calendar(identifier: .gregorian).component(.year, from: Date())
         selectRow(years.firstIndex(of: currentYear)!, inComponent: 0, animated: false)
     }
 }
 
 extension YearPickerView: UIPickerViewDataSource {
-    // Mark: UIPicker Delegate / Data Source
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

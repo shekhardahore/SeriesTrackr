@@ -1,5 +1,5 @@
 //
-//  DataSource.swift
+//  TVShowListTableViewDataSource.swift
 //  SeriesTrackr
 //
 //  Created by Shekhar Dahore on 15/09/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListModel>  {
+class TVShowListTableViewDataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListModel>  {
     
     weak var dataSourceDelegate: TVShowListTableViewDelegate?
     
@@ -16,9 +16,8 @@ class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListMod
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return TVShowWatchStatus.allCases[section].getSectionHeaderTitle()
     }
-
     
-    
+    //MARK: TableView delete support
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -35,7 +34,6 @@ class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListMod
     }
         
     // MARK: TableView reordering support
-    
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }

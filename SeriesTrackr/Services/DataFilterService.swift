@@ -12,7 +12,6 @@ class DataFilterService {
     
     func filterDuplicates(unfilteredTVShows: [TVShow]) -> [TVShow] {
         var filteredTVShows: [TVShow]
-        
         let uniqueShows = unfilteredTVShows.unique {
             $0.title.filter { !$0.isWhitespace }.lowercased()
         }

@@ -38,7 +38,6 @@ class HomeCollecionView: UICollectionView {
     }
     
     func generateLayout() -> UICollectionViewLayout {
-        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
         let fullPhotoItem = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.98), heightDimension: .fractionalHeight(1))
@@ -48,7 +47,6 @@ class HomeCollecionView: UICollectionView {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         let layout = UICollectionViewCompositionalLayout(section: section)
-        
         return layout
     }
     
@@ -58,7 +56,6 @@ class HomeCollecionView: UICollectionView {
                 (collectionView: UICollectionView, indexPath: IndexPath, detailItem: TrendingShow) -> UICollectionViewCell? in
                 let cell = collectionView.dequeueReusableCell(indexPath: indexPath) as TrendingCollectionViewCell
                 cell.model = detailItem
-                //  cell.imgShow.image = detailItem.showImage
                 return cell
         }
         let snapshot = snapshotForCurrentState()

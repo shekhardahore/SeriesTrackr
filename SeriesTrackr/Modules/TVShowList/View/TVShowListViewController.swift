@@ -71,8 +71,7 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
         navigationItem.rightBarButtonItems = [editingItem]
     }
     
-    @objc
-    func toggleEditing() {
+    @objc func toggleEditing() {
         tvShowListTableView.setEditing(!tvShowListTableView.isEditing, animated: true)
         configureNavigationItem()
     }

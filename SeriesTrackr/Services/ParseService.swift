@@ -13,7 +13,11 @@ class ParseService {
     
     typealias ParseServiceCompletion<T> = (Result<T, NetworkError>) -> Void
     
-    //Saves show
+    /// Save show on parse. Checks for duplicates before saving
+    ///
+    /// - Parameters:
+    ///   - show: TV Show to save
+    ///   - completion: returns `True` on successful save. `NetworkError` on failure.
     func save(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         tvShowAlreadyExists(show: show) { result in
             switch result{
@@ -41,7 +45,7 @@ class ParseService {
         }
     }
     
-    //Checks for duplicates
+    ///Checks for duplicates.
     private func tvShowAlreadyExists(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         let query = PFQuery(className: ParseClassNames.tvShow)
         query.whereKey(ParseObjectKeys.showId, equalTo: show.showId)
@@ -64,7 +68,10 @@ class ParseService {
         }
     }
     
-    //Returns all the shows
+    /// Gets the list of all the TV shows on Parse
+    ///
+    /// - Parameters:
+    ///   - completion: returns `[TVShow]` on success. `NetworkError` on failure.
     func getShowList(completion: @escaping ParseServiceCompletion<[TVShow]>) {
         let query = PFQuery(className:ParseClassNames.tvShow)
         query.cachePolicy = .cacheThenNetwork
@@ -95,7 +102,12 @@ class ParseService {
             completion(.success(shows))
         }
     }
-        
+     
+    /// Deletes the given show.
+    ///
+    /// - Parameters:
+    ///   - show: TV Show to delete.
+    ///   - completion: returns `True` on successful save. `NetworkError.unknown` on failure.
     func delete(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         show.deleteInBackground { (success, error) in
             if error != nil || !success {
@@ -107,6 +119,11 @@ class ParseService {
         }
     }
     
+    /// Updates the `watchStatus` for the show.
+    ///
+    /// - Parameters:
+    ///   - show: TV Show to update with the updated `watchStatus`.
+    ///   - completion: returns `True` on successful save. `NetworkError.unknown` on failure.
     func update(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         show.saveInBackground { (success, error) in
             if error != nil || !success {

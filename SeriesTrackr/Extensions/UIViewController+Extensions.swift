@@ -11,6 +11,7 @@ import UIKit
 fileprivate var aView: UIView?
 
 extension UIViewController {
+    
     func showSpinner() {
         aView = UIView(frame: self.view.bounds)
         aView?.backgroundColor = .clear
