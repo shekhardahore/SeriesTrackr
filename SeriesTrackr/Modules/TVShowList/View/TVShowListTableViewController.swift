@@ -17,7 +17,6 @@ class TVShowListTableViewController: UITableView {
     init(viewModel: TVShowListTableViewVM) {
         self.viewModel = viewModel
         super.init(frame: .zero, style: .insetGrouped)
-        isEditing = true
         setupTableView()
         configureDataSource()
         applySnapshot(animatingDifferences: false)
@@ -47,7 +46,6 @@ class TVShowListTableViewController: UITableView {
         translatesAutoresizingMaskIntoConstraints = false
         insetsContentViewsToSafeArea = true
         estimatedRowHeight = 100.0
-        delegate = self
         rowHeight = UITableView.automaticDimension
         tableFooterView = UIView()
         registerReusableCell(TVShowListTableViewCell.self)
@@ -84,17 +82,6 @@ class TVShowListTableViewController: UITableView {
         snapshot.appendItems(shows.watchLater, toSection: .watchLater)
         snapshot.appendItems(shows.watched, toSection: .watched)
         tableViewDataSource.apply(snapshot, animatingDifferences: true)
-    }
-}
-
-extension TVShowListTableViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .none
-    }
-    
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        return false
     }
 }
 

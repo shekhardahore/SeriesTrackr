@@ -104,8 +104,9 @@ class TVShowListTableViewVM {
     }
     
     func updateWatchingStatus(forShowAtIndex fromIndex: IndexPath, movingToIndexPath toIndex: IndexPath, toStatus status: TVShowWatchStatus) {
-        
+ 
         if let toUpdateShow = swap(from: fromIndex, to: toIndex), let showToUpdate = tvShowData.first(where: { $0.showId == toUpdateShow.id }) {
+            if fromIndex.section == toIndex.section { return }
             delegate?.updateWatchStatus(ofShow: showToUpdate, to: status)
         }
     }

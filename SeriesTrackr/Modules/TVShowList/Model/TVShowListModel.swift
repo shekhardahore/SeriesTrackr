@@ -27,6 +27,7 @@ class TVShowListModel: Hashable {
     static func == (lhs: TVShowListModel, rhs: TVShowListModel) -> Bool {
         lhs.id == rhs.id
     }
+    
     func contains(_ filter: String?) -> Bool {
         guard let filterText = filter else { return true }
         if filterText.isEmpty { return true }

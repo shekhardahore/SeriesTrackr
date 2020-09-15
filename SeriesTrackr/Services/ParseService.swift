@@ -83,7 +83,8 @@ class ParseService {
                 }
                 return
             }
-            guard let data = data else {
+            guard let data = data, data.count > 0 else {
+                PFQuery.clearAllCachedResults()
                 completion(.failure(.noDataFound))
                 return
             }

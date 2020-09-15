@@ -39,6 +39,7 @@ class AddShowCollectionViewCell: UICollectionViewCell, Reusable {
                 }
             } else {
                 txtField.keyboardType = model.inputType.keyboardType()
+                txtField.autocapitalizationType = .words
             }
             txtField.text = model.inputText
         }

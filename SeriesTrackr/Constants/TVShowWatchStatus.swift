@@ -8,11 +8,12 @@
 
 import Foundation
 
-enum TVShowWatchStatus: Int {
+enum TVShowWatchStatus: Int, CaseIterable {
     case watching = 1
     case watchLater = 2
     case watched = 3
 }
+
 extension TVShowWatchStatus {
     func getSectionHeaderTitle() -> String {
         switch self {

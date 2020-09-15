@@ -58,24 +58,25 @@ class TVShowListTableViewCell: UITableViewCell, Reusable {
     }
     
     func addViews() {
-        addSubview(lblTitle)
-        addSubview(lblYearOfRelease)
-        addSubview(lblNumberOfSeasons)
+        contentView.addSubview(lblTitle)
+        contentView.addSubview(lblYearOfRelease)
+        contentView.addSubview(lblNumberOfSeasons)
     }
     
     func addConstrains() {
         let padding: CGFloat = 5
+        let margin = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            lblTitle.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            lblTitle.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: padding),
-            lblTitle.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: -padding),
+            lblTitle.topAnchor.constraint(equalTo: margin.topAnchor),
+            lblTitle.leadingAnchor.constraint(equalTo: margin.leadingAnchor, constant: padding),
+            lblTitle.trailingAnchor.constraint(equalTo: margin.trailingAnchor, constant: -padding),
             
             lblYearOfRelease.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: padding),
-            lblYearOfRelease.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: padding),
+            lblYearOfRelease.leadingAnchor.constraint(equalTo: margin.leadingAnchor, constant: padding),
             
             lblNumberOfSeasons.topAnchor.constraint(equalTo: lblYearOfRelease.bottomAnchor, constant: padding),
-            lblNumberOfSeasons.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: padding),
-            lblNumberOfSeasons.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: -padding)
+            lblNumberOfSeasons.leadingAnchor.constraint(equalTo: margin.leadingAnchor, constant: padding),
+            lblNumberOfSeasons.bottomAnchor.constraint(equalTo: margin.bottomAnchor, constant: -padding)
         ])
         lblTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         lblTitle.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)

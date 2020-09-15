@@ -19,7 +19,7 @@ class TrendingCollectionViewCell: UICollectionViewCell, Reusable {
     var model: TrendingShow? {
         didSet {
             imgShow.image = model?.showImage
-            imgShow.contentMode = .scaleAspectFit
+            imgShow.contentMode = .scaleToFill
         }
     }
     

@@ -30,6 +30,7 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
         view.backgroundColor = .systemGray6
         addSubviews()
         addConstrains()
+        configureNavigationItem()
         self.showSpinner()
         viewModel.fetchAllShows()
         viewModel.tvShowFetchComplete = { [weak self] in
@@ -60,9 +61,20 @@ class TVShowListViewController: UIViewController, AlertDisplayable {
         NSLayoutConstraint.activate([
             tvShowListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tvShowListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tvShowListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tvShowListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tvShowListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    func configureNavigationItem() {
+        let editingItem = UIBarButtonItem(title: tvShowListTableView.isEditing ? "Done".localizedString : "Edit".localizedString, style: .plain, target: self, action: #selector(toggleEditing))
+        navigationItem.rightBarButtonItems = [editingItem]
+    }
+    
+    @objc
+    func toggleEditing() {
+        tvShowListTableView.setEditing(!tvShowListTableView.isEditing, animated: true)
+        configureNavigationItem()
     }
 }
 

@@ -14,16 +14,7 @@ class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListMod
     
     //MARK: TableView Header title
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return TVShowWatchStatus.watching.getSectionHeaderTitle()
-        case 1:
-            return TVShowWatchStatus.watchLater.getSectionHeaderTitle()
-        case 2:
-            return TVShowWatchStatus.watched.getSectionHeaderTitle()
-        default:
-            return nil
-        }
+        return TVShowWatchStatus.allCases[section].getSectionHeaderTitle()
     }
 
     
@@ -35,10 +26,10 @@ class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListMod
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if let identifierToDelete = itemIdentifier(for: indexPath) {
+                dataSourceDelegate?.didDeleteShow(atIndex: indexPath)
                 var snapshot = self.snapshot()
                 snapshot.deleteItems([identifierToDelete])
                 apply(snapshot)
-                dataSourceDelegate?.didDeleteShow(atIndex: indexPath)
             }
         }
     }
@@ -52,7 +43,6 @@ class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListMod
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         guard let sourceIdentifier = itemIdentifier(for: sourceIndexPath) else { return }
         guard sourceIndexPath != destinationIndexPath else { return }
-        guard sourceIndexPath.section != destinationIndexPath.section else { return }
         let destinationIdentifier = itemIdentifier(for: destinationIndexPath)
         
         dataSourceDelegate?.didUpdateWatchStatus(fromIndex: sourceIndexPath, toIndex: destinationIndexPath, newStatus: TVShowWatchStatus(rawValue: destinationIndexPath.section + 1))
