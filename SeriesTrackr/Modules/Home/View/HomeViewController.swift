@@ -11,13 +11,7 @@ import Parse
 
 class HomeViewController: UIViewController {
         
-    var homeCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        collectionView.backgroundColor = .systemBackground
-        return collectionView
-    }()
+    var homeCollectionView: UICollectionView
         
     var btnAddNewSeries: STButton = {
         var button = STButton(title: "Add new series to track".localizedString)
@@ -31,25 +25,18 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    enum Section: String, CaseIterable {
-        case trending = "Trending now"
-    }
-    
     enum Route: String {
         case addNewTVShow
         case showAllShows
     }
-    
-    var trendingShows: [TrendingShows] = [ TrendingShows(showId: "breaking bad", backgroundColor: .systemTeal), TrendingShows(showId: "The boys", backgroundColor: .systemRed), TrendingShows(showId: "Person of Intrest", backgroundColor: .systemGreen) ]
-    
-    var dataSource: UICollectionViewDiffableDataSource<Section, TrendingShows>! = nil
+  
     var viewModel: HomeViewModel
     var router: HomeRouter
-
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         self.router = HomeRouter(viewModel: viewModel)
+        homeCollectionView = HomeCollecionView(model: viewModel.trendingShows)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -71,8 +58,6 @@ class HomeViewController: UIViewController {
         title = "SeriesTrackr"
         addSubviews()
         addConstrains()
-        configureCollectionView()
-        configureDataSource()
     }
     
     func addSubviews() {
@@ -85,7 +70,7 @@ class HomeViewController: UIViewController {
         let padding: CGFloat = 20.0
         NSLayoutConstraint.activate([
             //CollectionView
-            homeCollectionView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: padding),
+            homeCollectionView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             homeCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             homeCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             homeCollectionView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 1/3),
@@ -102,54 +87,6 @@ class HomeViewController: UIViewController {
             btnSeriesLibrary.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
             btnSeriesLibrary.heightAnchor.constraint(equalToConstant: 50)
         ])
-    }
-    
-    func configureCollectionView() {
-        homeCollectionView.collectionViewLayout = generateLayout()
-        homeCollectionView.registerReusableCell(TrendingCollectionViewCell.self)
-    }
-    func generateLayout() -> UICollectionViewLayout {
-        
-//        let syncingBadgeAnchor = NSCollectionLayoutAnchor(edges: [.top, .trailing], fractionalOffset: CGPoint(x: -0.3, y: 0.3))
-//        let syncingBadge = NSCollectionLayoutSupplementaryItem(
-//            layoutSize: NSCollectionLayoutSize(
-//                widthDimension: .absolute(20),
-//                heightDimension: .absolute(20)),
-//            elementKind: AlbumDetailViewController.syncingBadgeKind,
-//            containerAnchor: syncingBadgeAnchor)
-        
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
-        let fullPhotoItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        fullPhotoItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
-
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .fractionalHeight(2/3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: fullPhotoItem, count: 1)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
-        let layout = UICollectionViewCompositionalLayout(section: section)
-
-        return layout
-    }
-    
-    func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource
-            <Section, TrendingShows>(collectionView: homeCollectionView) {
-                (collectionView: UICollectionView, indexPath: IndexPath, detailItem: TrendingShows) -> UICollectionViewCell? in
-                let cell = collectionView.dequeueReusableCell(indexPath: indexPath) as TrendingCollectionViewCell
-                cell.backgroundColor = detailItem.backgroundColor
-                return cell
-        }
-        let snapshot = snapshotForCurrentState()
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-
-    func snapshotForCurrentState() -> NSDiffableDataSourceSnapshot<Section, TrendingShows> {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, TrendingShows>()
-        snapshot.appendSections([Section.trending])
-        snapshot.appendItems(trendingShows)
-        return snapshot
     }
     
     @objc func onAllShows(_ sender: UIButton) {

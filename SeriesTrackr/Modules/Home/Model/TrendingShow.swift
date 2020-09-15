@@ -1,5 +1,5 @@
 //
-//  TrendingShows.swift
+//  TrendingShow.swift
 //  SeriesTrackr
 //
 //  Created by Shekhar Dahore on 12/09/20.
@@ -8,19 +8,21 @@
 
 import UIKit
 
-struct TrendingShows: Hashable {
+struct TrendingShow: Hashable {
+    
     var showId: String
-    var backgroundColor: UIColor
-    init(showId: String, backgroundColor: UIColor) {
+    var showImage: UIImage?
+    
+    init(showId: String, showImage: UIImage?) {
         self.showId = showId
-        self.backgroundColor = backgroundColor
+        self.showImage = showImage
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(showId)
     }
     
-    static func == (lhs: TrendingShows, rhs: TrendingShows) -> Bool {
+    static func == (lhs: TrendingShow, rhs: TrendingShow) -> Bool {
         lhs.showId == rhs.showId
     }
 }

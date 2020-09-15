@@ -9,10 +9,10 @@
 import Foundation
 
 class HomeViewModel {
-    let networkService: ParseService
     
-    /// TODO: Added trending service as well to the initalizer.
-    init(networkService: ParseService) {
-        self.networkService = networkService
+    var trendingShows: [TrendingShow]
+
+    init(trendingShows: [TrendingShow]) {
+        self.trendingShows = trendingShows
     }
 }

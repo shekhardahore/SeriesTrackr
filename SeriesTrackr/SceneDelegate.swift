@@ -23,16 +23,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func getRootViewController() -> HomeViewController {
-        let viewModel = HomeViewModel(networkService: ParseService())
+        let viewModel = HomeViewModel(trendingShows: loadTrendingShows())
         let HomeVC = HomeViewController(viewModel: viewModel)
         return HomeVC
     }
     
+    func loadTrendingShows() -> [TrendingShow] {
+        return [TrendingShow(showId: "rickandmorty", showImage: UIImage(named: "rickandmorty2")),
+                TrendingShow(showId: "iasp", showImage: UIImage(named: "iasp2")),
+                TrendingShow(showId: "breakingbad", showImage: UIImage(named: "breakingbad2")),
+                TrendingShow(showId: "theboys", showImage: UIImage(named: "theboys2")),
+                TrendingShow(showId: "barry", showImage: UIImage(named: "barry2"))
+            ]
+    }
+    
     func setupNavigationBarApperance() {
         let appearance = UINavigationBarAppearance()
-        //   appearance.backgroundColor = .purple
-        //  appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        //  appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().tintColor = .systemBlue
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance

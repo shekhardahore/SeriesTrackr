@@ -8,11 +8,6 @@
 
 import Foundation
 
-protocol TVShowListViewModelDelegate: class {
-    func delete(show: TVShow)
-    func updateWatchStatus(ofShow show: TVShow, to: TVShowWatchStatus)
-}
-
 typealias showsTuple = (watching: [TVShowListModel], watchLater:[TVShowListModel], watched: [TVShowListModel])
 
 class TVShowListTableViewVM {
