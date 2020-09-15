@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, TVShowListModel>  {
+class DataSource: UITableViewDiffableDataSource<TVShowWatchStatus, TVShowListModel>  {
     
     weak var dataSourceDelegate: TVShowListTableViewDelegate?
     
@@ -16,17 +16,17 @@ class DataSource: UITableViewDiffableDataSource<TVShowListTableViewSectionType, 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return TVShowListTableViewSectionType.watching.rawValue
+            return TVShowWatchStatus.watching.getSectionHeaderTitle()
         case 1:
-            return TVShowListTableViewSectionType.watchLater.rawValue
+            return TVShowWatchStatus.watchLater.getSectionHeaderTitle()
         case 2:
-            return TVShowListTableViewSectionType.watched.rawValue
+            return TVShowWatchStatus.watched.getSectionHeaderTitle()
         default:
             return nil
         }
     }
 
-    //MARK: TableView delete support
+    
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true

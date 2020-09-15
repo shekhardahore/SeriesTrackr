@@ -47,6 +47,7 @@ class TVShowListTableViewController: UITableView {
         translatesAutoresizingMaskIntoConstraints = false
         insetsContentViewsToSafeArea = true
         estimatedRowHeight = 100.0
+        delegate = self
         rowHeight = UITableView.automaticDimension
         tableFooterView = UIView()
         registerReusableCell(TVShowListTableViewCell.self)
@@ -63,12 +64,12 @@ class TVShowListTableViewController: UITableView {
     }
     
     func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
-        snapshot.appendSections([TVShowListTableViewSectionType.watching, TVShowListTableViewSectionType.watchLater, TVShowListTableViewSectionType.watched])
+        var snapshot = NSDiffableDataSourceSnapshot<TVShowWatchStatus, TVShowListModel>()
+        snapshot.appendSections([.watching, .watchLater, .watched])
 
-        snapshot.appendItems(viewModel.watchingShows, toSection: TVShowListTableViewSectionType.watching)
-        snapshot.appendItems(viewModel.watchLaterShows, toSection: TVShowListTableViewSectionType.watchLater)
-        snapshot.appendItems(viewModel.watchedShows, toSection: TVShowListTableViewSectionType.watched)
+        snapshot.appendItems(viewModel.watchingShows, toSection: .watching)
+        snapshot.appendItems(viewModel.watchLaterShows, toSection: .watchLater)
+        snapshot.appendItems(viewModel.watchedShows, toSection: .watched)
         
         tableViewDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
@@ -76,13 +77,24 @@ class TVShowListTableViewController: UITableView {
     func performQuery(with filter: String?) {
         
         let shows = viewModel.filtered(with: filter)
-        var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
-        snapshot.appendSections([TVShowListTableViewSectionType.watching, TVShowListTableViewSectionType.watchLater, TVShowListTableViewSectionType.watched])
+        var snapshot = NSDiffableDataSourceSnapshot<TVShowWatchStatus, TVShowListModel>()
+        snapshot.appendSections([.watching, .watchLater, .watched])
         
-        snapshot.appendItems(shows.watching, toSection: TVShowListTableViewSectionType.watching)
-        snapshot.appendItems(shows.watchLater, toSection: TVShowListTableViewSectionType.watchLater)
-        snapshot.appendItems(shows.watched, toSection: TVShowListTableViewSectionType.watched)
+        snapshot.appendItems(shows.watching, toSection: .watching)
+        snapshot.appendItems(shows.watchLater, toSection: .watchLater)
+        snapshot.appendItems(shows.watched, toSection: .watched)
         tableViewDataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension TVShowListTableViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
 }
 
