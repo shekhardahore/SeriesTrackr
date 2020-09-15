@@ -9,6 +9,7 @@
 import UIKit
 protocol TVShowListTableViewDelegate: class {
     func didDeleteShow(atIndex index: IndexPath)
+    func didUpdateWatchStatus(fromIndex: IndexPath, toIndex: IndexPath, newStatus: TVShowWatchStatus?)
 }
 
 class TVShowListTableViewController: UITableView {
@@ -44,6 +45,42 @@ class TVShowListTableViewController: UITableView {
                 return nil
             }
         }
+        
+        // MARK: reordering support
+        
+        override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+        
+        override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+            guard let sourceIdentifier = itemIdentifier(for: sourceIndexPath) else { return }
+            guard sourceIndexPath != destinationIndexPath else { return }
+            guard sourceIndexPath.section != destinationIndexPath.section else { return }
+            let destinationIdentifier = itemIdentifier(for: destinationIndexPath)
+            
+            dataSourceDelegate?.didUpdateWatchStatus(fromIndex: sourceIndexPath, toIndex: destinationIndexPath, newStatus: TVShowWatchStatus(rawValue: destinationIndexPath.section + 1))
+            
+            var snapshot = self.snapshot()
+            if let destinationIdentifier = destinationIdentifier {
+                if let sourceIndex = snapshot.indexOfItem(sourceIdentifier),
+                    let destinationIndex = snapshot.indexOfItem(destinationIdentifier) {
+                    let isAfter = destinationIndex > sourceIndex &&
+                        snapshot.sectionIdentifier(containingItem: sourceIdentifier) ==
+                        snapshot.sectionIdentifier(containingItem: destinationIdentifier)
+                    snapshot.deleteItems([sourceIdentifier])
+                    if isAfter {
+                        snapshot.insertItems([sourceIdentifier], afterItem: destinationIdentifier)
+                    } else {
+                        snapshot.insertItems([sourceIdentifier], beforeItem: destinationIdentifier)
+                    }
+                }
+            } else {
+                let destinationSectionIdentifier = snapshot.sectionIdentifiers[destinationIndexPath.section]
+                snapshot.deleteItems([sourceIdentifier])
+                snapshot.appendItems([sourceIdentifier], toSection: destinationSectionIdentifier)
+            }
+            apply(snapshot, animatingDifferences: false)
+        }
     }
     
     unowned var viewModel: TVShowListTableViewVM
@@ -53,6 +90,7 @@ class TVShowListTableViewController: UITableView {
     init(viewModel: TVShowListTableViewVM) {
         self.viewModel = viewModel
         super.init(frame: .zero, style: .insetGrouped)
+        isEditing = true
         setupTableView()
         configureDataSource()
         applySnapshot(animatingDifferences: false)
@@ -100,16 +138,24 @@ class TVShowListTableViewController: UITableView {
     
     func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
-        snapshot.appendSections([TVShowListTableViewSectionType.watched])
-        snapshot.appendItems(viewModel.tableViewCellVMs)
+        snapshot.appendSections([TVShowListTableViewSectionType.watching, TVShowListTableViewSectionType.watchLater, TVShowListTableViewSectionType.watched])
+
+        snapshot.appendItems(viewModel.watchingShows, toSection: TVShowListTableViewSectionType.watching)
+        snapshot.appendItems(viewModel.watchLaterShows, toSection: TVShowListTableViewSectionType.watchLater)
+        snapshot.appendItems(viewModel.watchedShows, toSection: TVShowListTableViewSectionType.watched)
+        
         tableViewDataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
     func performQuery(with filter: String?) {
+        
         let shows = viewModel.filtered(with: filter)
         var snapshot = NSDiffableDataSourceSnapshot<TVShowListTableViewSectionType, TVShowListModel>()
-        snapshot.appendSections([TVShowListTableViewSectionType.watched])
-        snapshot.appendItems(shows)
+        snapshot.appendSections([TVShowListTableViewSectionType.watching, TVShowListTableViewSectionType.watchLater, TVShowListTableViewSectionType.watched])
+        
+        snapshot.appendItems(shows.watching, toSection: TVShowListTableViewSectionType.watching)
+        snapshot.appendItems(shows.watchLater, toSection: TVShowListTableViewSectionType.watchLater)
+        snapshot.appendItems(shows.watched, toSection: TVShowListTableViewSectionType.watched)
         tableViewDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -133,6 +179,12 @@ extension TVShowListTableViewController: UITableViewDelegate {
 }
 
 extension TVShowListTableViewController: TVShowListTableViewDelegate {
+    func didUpdateWatchStatus(fromIndex: IndexPath, toIndex: IndexPath, newStatus: TVShowWatchStatus?) {
+        if let updatedStatus = newStatus {
+            viewModel.updateWatchingStatus(forShowAtIndex: fromIndex, movingToIndexPath: toIndex, toStatus: updatedStatus)
+        }
+    }
+    
     func didDeleteShow(atIndex index: IndexPath) {
         viewModel.deleteShow(atIndex: index)
     }

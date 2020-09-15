@@ -94,15 +94,20 @@ class ParseService {
             completion(.success(shows))
         }
     }
-    
-    func checkIfShowExists(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
-        //        beforeSave(show: show) { result in
-        //            completion(result)
-        //        }
-    }
-    
+        
     func delete(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
         show.deleteInBackground { (success, error) in
+            if error != nil || !success {
+                completion(.failure(.unknown))
+            } else {
+                PFQuery.clearAllCachedResults()
+                completion(.success(true))
+            }
+        }
+    }
+    
+    func update(show: TVShow, completion: @escaping ParseServiceCompletion<Bool>) {
+        show.saveInBackground { (success, error) in
             if error != nil || !success {
                 completion(.failure(.unknown))
             } else {

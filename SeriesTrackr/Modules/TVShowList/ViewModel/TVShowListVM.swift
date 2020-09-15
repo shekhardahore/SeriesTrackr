@@ -52,6 +52,23 @@ class TVShowListVM {
 }
 
 extension TVShowListVM: TVShowListViewModelDelegate {
+    
+    func updateWatchStatus(ofShow show: TVShow, to: TVShowWatchStatus) {
+        show.watchStatus = to.rawValue
+        parseService.update(show: show) { [weak self] (result) in
+            guard let `self` = self else {
+                return
+            }
+            switch result {
+            case .success(_):
+                //do nothing
+                break
+            case .failure(let error):
+                self.requestFailure?(error.errorDescription)
+            }
+        }
+    }
+    
     func delete(show: TVShow) {
         parseService.delete(show: show) { [weak self] (result) in
             guard let `self` = self else {
